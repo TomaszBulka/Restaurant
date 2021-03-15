@@ -1,24 +1,5 @@
-# restaurant
+App designed for ordering and managing orders in an online restaurant.
 
-## Project setup
-```
-npm install
-```
+Place orders and if you create an account and place orders for over 500 zł - receive discounts for every new order !
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+App is currently in progress.
