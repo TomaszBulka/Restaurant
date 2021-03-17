@@ -9,14 +9,14 @@
     <div class="discountedPrice" v-if="getDiscountedPrice">
         Twoja cena: {{ getDiscountedPrice }} zł
     </div>
-    <router-link to="/payments">
+    
     <div v-if="getDiscountedPrice">
     <button @click="createOrder({getDiscountedPrice, orderedPositions})">Zamów</button>
     </div>
     <div v-else>
     <button @click="createOrder({getSumOfPrices, orderedPositions})">Zamów</button>
     </div>
-    </router-link>
+    
 </div>
 </template>
 <script>
@@ -24,8 +24,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
 computed: mapGetters(['orderedPositions', 'getSumOfPrices', 'getDiscountedPrice', 'getSumOfOrders', 'getDiscounts']),
 methods: mapActions(['deleteOrder', 'substractPrices', 'createOrder', 'recalculateDiscount']),
-
-
     
 }
 </script>

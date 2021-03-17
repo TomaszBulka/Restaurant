@@ -3,12 +3,12 @@ import api from './api'
 export default{ 
     
     createUser(params){
-        api().post('users', params)
+       return api().post('users', params)
 },
 
     loginUser(params){
-        console.log(params)
-        api().post('login', params)
+       return api().post('login', params)
+         
     },
     fetchUser(){
       return  api().get('users')

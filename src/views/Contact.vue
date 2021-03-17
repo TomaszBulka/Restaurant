@@ -6,10 +6,16 @@ email: mail@mail.com
 Adres: Adres
 Czat
 </div>
+<div v-if="getCurrentOrder">
+    <router-link to="/AddressForm">
+    Powróć do zamówienia
+  </router-link>  
+</div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
-    
+    computed: mapGetters(['getCurrentOrder'])
 }
 </script>
 

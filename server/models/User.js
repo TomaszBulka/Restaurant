@@ -17,6 +17,7 @@ User.prototype.cleanUp = function(){
     if(this.data.address != null && typeof(this.data.address.city) !="string"){this.data.address.city = ""}
     if(this.data.address != null && typeof(this.data.address.street) !="string"){this.data.address.street = ""}
     if(this.data.address != null && typeof(this.data.address.housenumber) !="number"){this.data.address.housenumber = ""}
+    if(this.data.address != null && typeof(this.data.address.apartamentnumber) !="number"){this.data.address.housenumber = ""}
     
 
     this.data = {
@@ -34,9 +35,9 @@ User.prototype.validate = function(){
     if(this.data.username == ""){this.errors.push("You must provide an username")}
     if(this.data.username !=="" && !validator.isAlphanumeric(this.data.username)){this.errors.push("Username can only contain letters and numbers")}
     if(this.data.firstName == ""){this.errors.push("You must provide your first name")}
-    if(this.data.username !=="" && !validator.isAlpha(this.data.firstName, 'pl-PL', {ignore: "-",ignore: " "})){this.errors.push("Name can only contain letters, spaces and - ")}
-    if(this.data.firstName == ""){this.errors.push("You must provide your last name")}
-    if(this.data.username !=="" && !validator.isAlpha(this.data.lastName, 'pl-PL', {ignore: "-", ignore: " "})){this.errors.push("Name can only contain letters, spaces and - ")}
+    if(this.data.lastName == ""){this.errors.push("You must provide your last name")}
+    if(this.data.firstName !=="" && !validator.isAlpha(this.data.firstName, 'pl-PL', {ignore: "-",ignore: " "})){this.errors.push("Name can only contain letters, spaces and - ")}
+    if(this.data.lastName !=="" && !validator.isAlpha(this.data.lastName, 'pl-PL', {ignore: "-", ignore: " "})){this.errors.push("Name can only contain letters, spaces and - ")}
     if(this.data.email == ""){this.errors.push("You must provide an email")}
     if(this.data.email !=="" && !validator.isEmail(this.data.email)){this.errors.push("You must provide a valid email")}
     if(this.data.password == ""){this.errors.push("You must provide a password")}
@@ -53,7 +54,6 @@ User.prototype.validate = function(){
 User.prototype.create = function() {
     
     return new Promise( async (resolve, reject) => {
-        console.log(this.data.address)
         await this.validate()
         this.cleanUp()
         if(!this.errors.length){
@@ -75,7 +75,7 @@ User.prototype.create = function() {
             usersCollection.findOne({username: this.data.username}).then((attemptedUser) =>{
                 if(attemptedUser && bcrypt.compareSync(this.data.password, attemptedUser.password)){
                     this.data = attemptedUser
-                    resolve("Congrats !")
+                    resolve("Success")
                 }else{
                     reject("Invalid username/password")
                 }

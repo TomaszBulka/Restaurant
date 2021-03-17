@@ -97,4 +97,32 @@ Order.sumOfUsersOrders = function(id){
     })
 }
 
+
+Order.currentOrder = function(id){
+    return new Promise(async function(resolve, reject){
+        let order = ordersCollection.aggregate([
+            {$match: {_id: new ObjectID(id)}}
+        ]).toArray()
+        
+        if(order){
+            resolve(order)}else{
+
+            this.errors.push('Try again later')
+            reject(errors)} 
+    })
+}
+
+
+Order.addCurrentOrdersAddress = async function(address, id){
+    return new Promise(async(resolve, reject) =>{
+        if(typeof(address.city) == "string" && typeof(address.street) == "string" && typeof(address.housenumber) == "number"){
+        ordersCollection.findOneAndUpdate({_id: new ObjectID(id)}, {$set: {address}})
+        resolve('success')
+        }else{
+        
+        reject('Something is wrong. Please try again')
+        }
+    })
+}
+
 module.exports = Order

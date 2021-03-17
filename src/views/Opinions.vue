@@ -1,6 +1,6 @@
 <template>
         <div class="opinions">
-        <form class="create-opinion" @submit.prevent ="createNewOpinion">
+        <form class="create-opinion" @submit="createNewOpinion">
         <label for="newOpinion">Smakowało ? Twoja opinia jest dla nas ważna !</label>
         <textarea id="newOpinion" v-model="newOpinionContent" />
         <button>Zostaw opinię !</button>
@@ -10,9 +10,16 @@
             {{ opinion.content }}
         </div>    
     </div>
+    <div v-if="getCurrentOrder">
+    <router-link to="/AddressForm">
+    Powróć do zamówienia
+  </router-link>  
+</div>
+
 </template>
 <script>
 import OpinionsService from '../api/OpinionsService'
+import {mapGetters} from 'vuex'
 
 export default {
     name: 'Opinions',
@@ -25,7 +32,9 @@ export default {
     mounted() {
         this.getOpinions()
     },
+    computed: mapGetters(['getCurrentOrder']),
     methods: {
+        
         async getOpinions(){
             const response = await OpinionsService.fetchOpinions()
             this.opinions = response.data
@@ -34,8 +43,7 @@ export default {
         async createNewOpinion(){
             await OpinionsService.addOpinion({
                 content : this.newOpinionContent
-            }).then(this.getOpinions())
-           
+            })
         }
     }
     

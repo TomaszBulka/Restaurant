@@ -12,14 +12,13 @@ exports.createUser = function(req, res){
 exports.login = function(req, res){
         let user = new User(req.body)
         user.login().then(function(result){
-                req.session.user = { username: user.data.username, _id: user.data._id}
-                req.save()
+                req.session.user = { username: user.data.username, _id: user.data._id, address: user.data.address }
+                req.session.save()
                 res.send(result)
                 
         }).catch(function(error){
                 res.send(error)
-        })
-               
+        })          
 }
 
 

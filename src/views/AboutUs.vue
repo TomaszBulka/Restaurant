@@ -10,11 +10,19 @@
     Phasellus dignissim vestibulum enim ac pretium. Suspendisse non pharetra leo, vitae sollicitudin nisi. Quisque eget tortor nulla. Sed ac odio metus.
     Pellentesque leo metus, consequat eget odio ut, efficitur vehicula odio. Nam vitae quam eu nibh vulputate iaculis quis eget turpis.
     Aliquam mi nisi, porta in ullamcorper egestas, finibus id ex. Nunc id venenatis sapien. Nullam placerat dapibus ultrices. 
-</div>    
+</div>
+
+ <div v-if="getCurrentOrder">
+    <router-link to="/AddressForm">
+    Powróć do zamówienia
+  </router-link>  
+</div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
     name: 'AboutUs',
+    computed: mapGetters(['getCurrentOrder'])
 }
 </script>
 <style lang="scss" scoped>

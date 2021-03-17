@@ -1,4 +1,5 @@
 <template>
+
 <router-link to="/"><div class="topbar">
 Restaurant
 <div class="user">
@@ -20,11 +21,20 @@ Restaurant
 </div></router-link>
 <div class="content">
 
-<ViewsList></ViewsList>
-<router-view/>
-<Basket></Basket>
 
+<ViewsList></ViewsList>
+
+<router-view/>
+
+<div v-if="!getCurrentOrder">
+<Basket></Basket>
 </div>
+
+
+  
+</div>
+ 
+
 <div class="footer">
 Footer 
 </div>
@@ -40,7 +50,7 @@ import { mapActions, mapGetters} from 'vuex'
 export default {
   name: 'App',
   components: { ViewsList,  Basket},
-  computed: mapGetters(['loggedUser']),
+  computed: mapGetters(['loggedUser', 'getCurrentOrder']),
   methods: mapActions(['fetchUser', 'logout']),
   mounted(){
     this.fetchUser()

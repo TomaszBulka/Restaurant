@@ -39,6 +39,9 @@ const actions = {
     },
     recalculateDiscount({commit}, sumAndDiscounts){
         commit('setRecalculatedDiscount', sumAndDiscounts)
+    },
+    cleanBasket({commit}){
+        commit('cleanOrderedPositions')
     }
     
 
@@ -78,6 +81,10 @@ const mutations = {
                 state.discountedPrice = state.sumOfPrices * sumAndDiscounts.getDiscounts[1]
             }
         }
+    },
+    cleanOrderedPositions(state){
+        state.orderedPositions = []
+        state.sumOfPrices = 0
     }
 }
 

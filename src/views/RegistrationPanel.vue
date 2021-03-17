@@ -32,12 +32,20 @@
                 <input v-model="address.street">
                 </div>  
                 <div class="form-group">
-                Numer domu / mieszkania
+                Numer domu
                 <input v-model.number="address.housenumber" type="number">
-                </div>  
+                </div>
+                <div class="form-group">
+                Numer mieszkania
+                <input v-model.number="address.apartamentnumber" type="number">
+                </div>   
             </div>    
             <button> Zarejestruj się !</button>       
         </form>
+        <div class="messages" v-for="message in messages" :key="message.index">
+        {{ message }}
+        </div>
+        
     </div>
     
 </template>
@@ -55,14 +63,16 @@ export default {
             address: {
                 city: '',
                 street: '',
-                housenumber: null
+                housenumber: null,
+                apartamentnumber: null
                 
-            }
+            },
+            messages: ''
         }
     },
     methods: {
         async createNewUser(){
-        await UsersService.createUser({
+       let response = await UsersService.createUser({
             username: this.username,
             firstName: this.firstName,
             lastName: this.lastName,
@@ -70,6 +80,12 @@ export default {
             email: this.email,
             address: this.address
         })
+
+        if(response.data == 'There are no errors'){
+            setTimeout(() => this.$router.push({ name: 'NewUserConfirmation'}), 1000)
+        }else{
+            this.messages = response.data
+        }
     }
     }
 }
@@ -86,5 +102,9 @@ export default {
     width: 800px;
     padding: 20px;
     margin-top: 50px;
+
+    .messages{
+        color: red;
+    }
 }
 </style>

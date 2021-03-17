@@ -1,11 +1,17 @@
 <template>
     <div class="payments">
         Choose Payment Method
+
+        <button @click="payAndDeleteCurrentOrder(), cleanBasket()">
+            Zapłać
+        </button>    
     </div>
 </template>
 <script>
+
+import {mapActions} from 'vuex'
 export default {
-    
+    methods: mapActions(['payAndDeleteCurrentOrder', 'cleanBasket'])
 }
 </script>
 <style scoped>
