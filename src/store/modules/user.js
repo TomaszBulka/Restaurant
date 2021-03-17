@@ -1,11 +1,13 @@
 import UsersService from '../../api/UsersService'
 
 const state = {
-    user: null
+    user: null,
+    address: null
 }
 
 const getters = {
-    loggedUser: state => state.user
+    loggedUser: state => state.user,
+    usersAddress: state => state.address
 }
 
 const actions = {
@@ -13,11 +15,16 @@ const actions = {
     async fetchUser({commit}){
         let response = await UsersService.fetchUser()
         commit('setUser', response.data.username)
-        console.log(response.data)
+        
     },
     async logout({commit}){
         await UsersService.logoutUser()
         commit('logout')
+    },
+    async fetchAddress({commit}){
+        let response = await UsersService.fetchUser()
+        commit('setAddress', response.data.address)
+        console.log(response.data.address)
     } 
 
 }
@@ -29,6 +36,9 @@ const mutations = {
     },
     logout(state){
         state.user = null
+    },
+    setAddress(state, address){
+        state.address = address
     }
 }
 

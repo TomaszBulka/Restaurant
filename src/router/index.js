@@ -7,6 +7,9 @@ import LoginPanel from '../views/LoginPanel.vue'
 import RegistrationPanel from '../views/RegistrationPanel.vue'
 import Payments from '../views/Payments.vue'
 import UserPanel from '../views/UserPanel.vue'
+import AddressForm from '../views/AddressForm.vue'
+import Confirmation from '../views/Confirmation.vue'
+import NewUserConfirmation from '../views/NewUserConfirmation.vue'
 
 const routes = [
   {
@@ -49,6 +52,22 @@ const routes = [
     path: '/UserPanel',
     name: 'UserPanel',
     component: UserPanel
+  },
+  {
+    path: '/AddressForm',
+    name: 'AddressForm',
+    component: AddressForm
+  },
+  {
+    path: '/Confirmation',
+    name: 'Confirmation',
+    component: Confirmation
+  },
+  {
+    path: '/NewUserConfirmation',
+    name: 'NewUserConfirmation',
+    component: NewUserConfirmation
+
   }
   
 ]

@@ -1,24 +1,27 @@
 import OrderService from '../../api/OrderService'
-
+import router from '../../router/index'
 const state = {
     order: {
         positions: null,
         sumOfPrices: null,
     },
     pastOrders: null,
-    sumOfOrders: null
+    sumOfOrders: null,
+    currentOrder: null
 }
 
 const getters = {
     getOrder: state => state.order,
     getPastOrders: state => state.pastOrders,
-    getSumOfOrders: state =>state.sumOfOrders
+    getSumOfOrders: state => state.sumOfOrders,
+    getCurrentOrder: state => state.currentOrder
 }
 
 const actions = {
     async createOrder({commit}, order ){
         await OrderService.createOrder(order)
         commit('setOrder', order)
+        setTimeout(() => router.push({name: 'AddressForm'}), 1500)
     },
     async fetchPastOrders({commit}){
         let response = await OrderService.getPastOrders()
@@ -26,8 +29,16 @@ const actions = {
     },
     async fetchSumOfOrders({commit}){
         let response = await OrderService.getSumOfOrders()
-        console.log(response.data.result)
         commit('setSumOfOrders', response.data.result)
+    },
+    async fetchCurrentOrder({commit}){
+        let response = await OrderService.getCurrentOrder()
+        commit('setCurrentOrder', response.data)
+    },
+    async payAndDeleteCurrentOrder({commit}){
+        await OrderService.payAndDeleteSession()
+        commit('deleteCurrentOrder' )
+        router.push({ name: 'Confirmation'})
     }
 }
 
@@ -43,8 +54,13 @@ const mutations = {
         }    
     },
     setSumOfOrders(state, sumOfOrders){
-
         state.sumOfOrders = sumOfOrders
+    },
+    setCurrentOrder(state, currentOrder){
+        state.currentOrder = currentOrder[0]
+    },
+    deleteCurrentOrder(state){
+        state.currentOrder = null
     }
 }
 

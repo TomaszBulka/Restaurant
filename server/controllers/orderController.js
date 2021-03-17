@@ -1,10 +1,10 @@
 const Order = require('../models/Order')
 
 exports.createOrder = function(req, res){
-    console.log(req.body)
     if(req.session.user){
         let order = new Order(req.body, req.session.user._id)
     order.create().then(function(){
+        req.session.order = {_id: order.data._id}
         res.send("There are no erros")
     }).catch(function(){
         res.send("There are erros")
@@ -12,6 +12,7 @@ exports.createOrder = function(req, res){
     }else{
         let order = new Order(req.body)
         order.create().then(function(){
+            req.session.order = {_id: order.data._id}
             res.send("There are no erros")
         }).catch(function(){
             res.send("There are erros")
@@ -33,4 +34,33 @@ exports.getSumOfUsersOrders = function(req, res){
     }).catch(function(error){
         res.send(error)
     })
+}
+
+
+exports.findCurrentOrder =  function(req, res){
+    console.log(req.session.order._id)
+        Order.currentOrder(req.session.order._id).then(function(result){
+            res.send(result)
+        }).catch(function(error){
+            res.send(error)
+        })
+    
+    
+}
+
+
+exports.addAddress = function(req, res){
+    
+    Order.addCurrentOrdersAddress(req.body, req.session.order._id).then(function(){
+        res.send('There are no errors')
+    }).catch(function(){
+        res.send('There are errors')
+    })
+
+}
+
+exports.payAndRefresh = function(req, res){
+    req.session.order = null
+
+    res.send('Thank you for your payment !')
 }

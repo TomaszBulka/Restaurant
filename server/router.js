@@ -24,5 +24,8 @@ router.post('/opinions', opinionController.create)
 router.post('/orders', orderController.createOrder)
 router.get('/orders', orderController.findUsersOrders)
 router.get('/sum', orderController.getSumOfUsersOrders )
+router.get('/currentOrder', orderController.findCurrentOrder)
+router.post('/currentOrder', orderController.addAddress)
+router.post('/payment', orderController.payAndRefresh)
 
 module.exports = router

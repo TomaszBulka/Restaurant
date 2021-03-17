@@ -1,6 +1,6 @@
 <template>
 
-Witaj {{ loggedUser }} !
+Witaj {{ loggedUser}} !
 
 <div v-if="!getPastOrders">
 Nie złożyłes jeszcze żadnych zamówień
@@ -36,11 +36,12 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
     name: 'UserPanel',
     computed: mapGetters(['loggedUser', 'getPastOrders', 'getSumOfOrders', 'getDiscounts']),
-    methods: mapActions(['fetchUser', 'fetchPastOrders', 'orderPosition', 'addPrices', 'fetchSumOfOrders', 'addDiscount', 'recalculateDiscount']),
+    methods: mapActions(['fetchUser', 'fetchPastOrders', 'orderPosition', 'addPrices', 'fetchSumOfOrders', 'addDiscount', 'recalculateDiscount', 'fetchAddress']),
     mounted(){
         this.fetchUser(),
         this.fetchPastOrders(),
-        this.fetchSumOfOrders()
+        this.fetchSumOfOrders(),
+        this.fetchAddress()
     }    
 }
 </script>

@@ -10,13 +10,19 @@
         <button @click="orderPosition(position); addPrices(position), recalculateDiscount({getSumOfOrders, getDiscounts})"> Zamów ! </button>
         </div>
     </div >
+    <div v-if="getCurrentOrder">
+    <router-link to="/AddressForm">
+    Powróć do zamówienia
+  </router-link>  
+</div>   
+
 </template>
 <script>
 import { mapActions, mapGetters} from 'vuex'
 
 export default {
     name: 'Menu',
-    computed: mapGetters([ 'allPositions', 'getSumOfOrders', 'getDiscounts']),
+    computed: mapGetters([ 'allPositions', 'getSumOfOrders', 'getDiscounts', 'getCurrentOrder']),
     methods: mapActions(['orderPosition', 'addPrices', 'fetchPositions', 'recalculateDiscount']),
     mounted(){
        this.fetchPositions()

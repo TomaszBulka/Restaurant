@@ -5,6 +5,9 @@
     Hasło <input v-model="password">
     <button>Zaloguj się</button>
     </form>
+    <div class="message">
+    {{ message }}
+    </div>
     Nie posiadasz u nas konta ? <router-link to="/Register">Zarejestruj się !</router-link>
 </div>
 
@@ -15,19 +18,24 @@ export default {
     data(){
         return {
             username: '',
-            password: ''
+            password: '',
+            message: ''
         }
     },
     methods: {
         async login(){
-            await UsersService.loginUser({
+         let response = await UsersService.loginUser({
                 username: this.username,
                 password: this.password
             })
-           
-          setTimeout(() => this.$router.push({
+
+         if(response.data == 'Success'){
+             setTimeout(() => this.$router.push({
                 path: '/UserPanel'
-            }), 500) 
+            }), 1000)
+         }else if (response.data == 'Invalid username/password'){
+             this.message = "Niepoprawny login lub hasło - Spróbuj ponownie !"
+         }  
         }
     }
 }
@@ -44,6 +52,12 @@ export default {
     width: 800px;
     padding: 20px;
     margin-top: 50px;
+
+    .message{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: red;
+    }
 }
 
 </style>
