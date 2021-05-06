@@ -1,5 +1,6 @@
 const Order = require('../models/Order')
 
+
 exports.createOrder = function(req, res){
     if(req.session.user){
         let order = new Order(req.body, req.session.user._id)
@@ -38,7 +39,6 @@ exports.getSumOfUsersOrders = function(req, res){
 
 
 exports.findCurrentOrder =  function(req, res){
-    console.log(req.session.order._id)
         Order.currentOrder(req.session.order._id).then(function(result){
             res.send(result)
         }).catch(function(error){
@@ -63,4 +63,23 @@ exports.payAndRefresh = function(req, res){
     req.session.order = null
 
     res.send('Thank you for your payment !')
+}
+
+exports.latestOrders = function(req, res){
+
+   
+    Order.findLatestOrders().then(function(result){
+        
+        res.send(result)
+    }).catch(function(error){
+        res.send(error)
+    })
+}
+
+exports.markAsRealized = function(req, res){
+    Order.realizeOrder(req.body).then(function(){
+        res.send('Order has been realized !')
+    }).catch(function(){
+        res.send('Something went wrong')
+    })
 }

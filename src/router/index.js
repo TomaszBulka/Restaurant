@@ -10,6 +10,11 @@ import UserPanel from '../views/UserPanel.vue'
 import AddressForm from '../views/AddressForm.vue'
 import Confirmation from '../views/Confirmation.vue'
 import NewUserConfirmation from '../views/NewUserConfirmation.vue'
+import AdminPanel from '../views/AdminPanel.vue'
+import EditAboutUs from '../views/admin-views/EditAboutUs.vue'
+import EditContact from '../views/admin-views/EditContact.vue'
+import EditPosition from '../views/admin-views/EditPosition.vue'
+import AddPosition from '../views/admin-views/AddPosition.vue'
 
 const routes = [
   {
@@ -67,6 +72,33 @@ const routes = [
     path: '/NewUserConfirmation',
     name: 'NewUserConfirmation',
     component: NewUserConfirmation
+
+  },
+  {
+    path: '/AdminPanel',
+    name: 'AdminPanel',
+    component: AdminPanel
+  },
+  {
+    path: '/EditAboutUs',
+    name: 'EditAboutUs',
+    component: EditAboutUs
+  },
+  {
+    path: '/EditContact',
+    name: 'EditContact',
+    component: EditContact
+  },
+  {
+    path: '/EditPosition',
+    name: 'EditPosition',
+    component: EditPosition
+
+  },
+  {
+    path: '/AddPosition',
+    name: 'AddPosition',
+    component: AddPosition
 
   }
   

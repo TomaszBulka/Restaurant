@@ -7,11 +7,20 @@ Restaurant
   Witaj {{ loggedUser }} !
 </div>
 <div class="options">
-<router-link to="UserPanel">  
+ 
 <div class=" panellink" v-if="loggedUser">
-  Twój Panel ||  
+  <div v-if="isAdmin">
+  <router-link to="AdminPanel"> 
+  Twój Panel ||
+  </router-link>
+  </div>
+  <div v-else>
+  <router-link to="UserPanel"> 
+  Twój Panel ||
+  </router-link>
+  </div>   
 </div>
-</router-link> 
+
 <div class="login">
   <div v-if="!loggedUser"><router-link to="/Login">Zaloguj się</router-link></div><div v-else @click="logout()"> <router-link to="/"> Wyloguj się</router-link></div>
 </div>
@@ -26,7 +35,7 @@ Restaurant
 
 <router-view/>
 
-<div v-if="!getCurrentOrder">
+<div v-if="!getCurrentOrder && !isAdmin">
 <Basket></Basket>
 </div>
 
@@ -50,10 +59,12 @@ import { mapActions, mapGetters} from 'vuex'
 export default {
   name: 'App',
   components: { ViewsList,  Basket},
-  computed: mapGetters(['loggedUser', 'getCurrentOrder']),
-  methods: mapActions(['fetchUser', 'logout']),
+  computed: mapGetters(['loggedUser', 'getCurrentOrder', 'isAdmin']),
+  methods: mapActions(['fetchUser', 'logout', 'fetchAdmin', 'fetchAddress']),
   mounted(){
     this.fetchUser()
+    this.fetchAdmin()
+    this.fetchAddress() 
   }  
 }
 </script>

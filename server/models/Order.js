@@ -13,7 +13,8 @@ Order.prototype.cleanUp = function(){
             orderedPositions: this.data.orderedPositions,
             sum:  this.data.getSumOfPrices || this.data.getDiscountedPrice,
             dateOfOrder: new Date(),
-            client: ObjectID(this.clientId)
+            client: ObjectID(this.clientId),
+            isRealized: false
             
         }
     }else {
@@ -21,7 +22,8 @@ Order.prototype.cleanUp = function(){
             orderedPositions: this.data.orderedPositions,
             sum:  this.data.getSumOfPrices || this.data.getDiscountedPrice,
             dateOfOrder: new Date(),
-            client: 'Client unregistered'
+            client: 'Client unregistered',
+            isRealized: false
     }
 }
     
@@ -108,7 +110,7 @@ Order.currentOrder = function(id){
             resolve(order)}else{
 
             this.errors.push('Try again later')
-            reject(errors)} 
+            reject(this.errors)} 
     })
 }
 
@@ -123,6 +125,35 @@ Order.addCurrentOrdersAddress = async function(address, id){
         reject('Something is wrong. Please try again')
         }
     })
+}
+
+Order.findLatestOrders = async function(){
+    return new Promise(async (resolve, reject) => {
+        let latestOrders = await ordersCollection.aggregate([
+            {$sort: {dateOfOrder: -1}},
+            {$project: {
+                client: 0
+            }}
+        ]).toArray()
+       latestOrders =  latestOrders.map(function(order) {
+            order.orderedPositions = order.orderedPositions.map(function(position){
+                position = position.name
+                return position
+            })
+            return order
+        })
+        latestOrders= latestOrders.splice(0, 10)
+        if(latestOrders.length){
+            resolve(latestOrders)
+        }else{
+            reject("Niestety nie ma jeszcze żadnych zamówień")
+        }
+    })
+}
+
+Order.realizeOrder = async function(order){
+        let orderId= order._id
+        await ordersCollection.findOneAndUpdate({_id: new ObjectID(orderId)}, {$set: {isRealized: true}})    
 }
 
 module.exports = Order

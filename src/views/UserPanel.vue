@@ -36,7 +36,7 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
     name: 'UserPanel',
     computed: mapGetters(['loggedUser', 'getPastOrders', 'getSumOfOrders', 'getDiscounts']),
-    methods: mapActions(['fetchUser', 'fetchPastOrders', 'orderPosition', 'addPrices', 'fetchSumOfOrders', 'addDiscount', 'recalculateDiscount', 'fetchAddress']),
+    methods: mapActions(['fetchUser', 'fetchPastOrders', 'orderPosition', 'addPrices', 'fetchSumOfOrders', 'addDiscount', 'recalculateDiscount', 'fetchAddress', 'fetchAdmin']),
     mounted(){
         this.fetchUser(),
         this.fetchPastOrders(),

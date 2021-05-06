@@ -28,11 +28,14 @@ export default {
                 username: this.username,
                 password: this.password
             })
-
          if(response.data == 'Success'){
              setTimeout(() => this.$router.push({
                 path: '/UserPanel'
             }), 1000)
+         }else if(response.data =='Admin'){
+             setTimeout(() => this.$router.push({
+                 path: '/AdminPanel'
+             }), 1000)
          }else if (response.data == 'Invalid username/password'){
              this.message = "Niepoprawny login lub hasło - Spróbuj ponownie !"
          }  

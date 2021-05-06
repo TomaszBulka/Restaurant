@@ -28,6 +28,11 @@ User.prototype.cleanUp = function(){
         password: this.data.password,
         address: this.data.address
     }
+    if(this.data.username == "admin"){
+        this.data.isAdmin = true
+    }else{
+        this.data.isAdmin = false
+    }
     
 }
 
@@ -75,7 +80,11 @@ User.prototype.create = function() {
             usersCollection.findOne({username: this.data.username}).then((attemptedUser) =>{
                 if(attemptedUser && bcrypt.compareSync(this.data.password, attemptedUser.password)){
                     this.data = attemptedUser
-                    resolve("Success")
+                    if(this.data.isAdmin == true){
+                        resolve("Admin")
+                    }else{
+                        resolve("Success")
+                    }    
                 }else{
                     reject("Invalid username/password")
                 }

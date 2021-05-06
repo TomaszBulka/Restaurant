@@ -3,6 +3,7 @@ import api from './api'
 export default {
 
     createOrder(params){
+        console.log(params)
         api().post('orders', params)
     },
 
@@ -21,6 +22,12 @@ export default {
     },
     payAndDeleteSession(){
         api().post('payment')
+    },
+    getLatestOrders(){
+        return api().get('latest')
+    },
+    markAsRealized(params){
+       return api().post('realize-order', params)
     }
     
 }

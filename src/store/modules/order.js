@@ -3,18 +3,20 @@ import router from '../../router/index'
 const state = {
     order: {
         positions: null,
-        sumOfPrices: null,
+        sumOfPrices: null
     },
     pastOrders: null,
     sumOfOrders: null,
-    currentOrder: null
+    currentOrder: null,
+    latestOrders: null
 }
 
 const getters = {
     getOrder: state => state.order,
     getPastOrders: state => state.pastOrders,
     getSumOfOrders: state => state.sumOfOrders,
-    getCurrentOrder: state => state.currentOrder
+    getCurrentOrder: state => state.currentOrder,
+    getLatestOrders: state => state.latestOrders
 }
 
 const actions = {
@@ -39,6 +41,20 @@ const actions = {
         await OrderService.payAndDeleteSession()
         commit('deleteCurrentOrder' )
         router.push({ name: 'Confirmation'})
+    },
+    async fetchLatestOrders({commit}){
+        let response = await OrderService.getLatestOrders()
+        console.log(response.data)
+        if(typeof(response.data) != "string")
+        commit('setLatestOrders', response.data )
+    },
+    async markAsRealized({dispatch, commit}, order){
+       let response =  await OrderService.markAsRealized(order)
+        commit('setAsRealized')
+        if(response.data == "Order has been realized !"){
+        dispatch('fetchLatestOrders')
+        }
+        
     }
 }
 
@@ -61,6 +77,9 @@ const mutations = {
     },
     deleteCurrentOrder(state){
         state.currentOrder = null
+    },
+    setLatestOrders(state, latestOrders){
+        state.latestOrders = latestOrders
     }
 }
 

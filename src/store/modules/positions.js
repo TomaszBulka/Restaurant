@@ -5,7 +5,8 @@ const state  = {
     orderedPositions: [],
     sumOfPrices: 0,
     discountedPrice: null,
-    isDiscounted: false
+    isDiscounted: false,
+    positionToEdit: null
     
 }
 
@@ -13,13 +14,24 @@ const getters = {
     allPositions: state => state.positions,
     orderedPositions: state => state.orderedPositions,
     getSumOfPrices: state => state.sumOfPrices,
-    getDiscountedPrice: state => state.discountedPrice
+    getDiscountedPrice: state => state.discountedPrice,
+    getPositionToEdit: state => state.positionToEdit
 }
 
 const actions = {
     async fetchPositions({commit}){
         let response = await PositionsService.fetchPositions()
         commit('setAllPositions', response.data)
+    },
+    async deleteMenuPosition({commit}, menuPosition){
+        console.log(menuPosition)
+        await PositionsService.deletePosition(menuPosition.position)
+        commit('deleteMenuPosition', menuPosition.index)
+
+    },
+    async findPositionToEdit({commit}, id){
+        let response = await PositionsService.findPosition(id)
+        commit('setPositionToEdit', response.data) 
     },
     orderPosition({commit}, position){ 
        commit('setOrderedPosition', position)    
@@ -85,6 +97,12 @@ const mutations = {
     cleanOrderedPositions(state){
         state.orderedPositions = []
         state.sumOfPrices = 0
+    },
+    deleteMenuPosition(state, index){
+        state.positions.splice(index, 1)
+    },
+    setPositionToEdit(state, positionToEdit){
+        state.positionToEdit = positionToEdit
     }
 }
 
